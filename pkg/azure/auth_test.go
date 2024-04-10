@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/Azure/go-autorest/autorest/azure/auth" //TODO: autorest/azure/auth is deprecated, need to replace with azidentity https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/azidentity/MIGRATION.md
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

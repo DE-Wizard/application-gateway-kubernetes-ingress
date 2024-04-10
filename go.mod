@@ -7,7 +7,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.2
 	github.com/Azure/go-autorest/autorest v0.11.29
-	github.com/Azure/go-autorest/autorest/azure/auth v0.5.11
+	github.com/Azure/go-autorest/autorest/azure/auth v0.5.12 //TODO: autorest/azure/auth is deprecated, need to replace with azidentity
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/deckarep/golang-set v1.8.0
 	github.com/getlantern/deepcopy v0.0.0-20160317154340-7f45deb8130a

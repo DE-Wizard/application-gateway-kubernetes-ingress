@@ -11,7 +11,7 @@ import (
 	n "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-03-01/network"
 	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/autorest/azure/auth"
+	"github.com/Azure/go-autorest/autorest/azure/auth" //TODO remove this and update code to use azidentity https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/azidentity/MIGRATION.md
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/azure/defaultazurecredential"
