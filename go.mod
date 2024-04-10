@@ -3,7 +3,7 @@ module github.com/Azure/application-gateway-kubernetes-ingress
 go 1.22
 
 require (
-	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible
+	github.com/Azure/azure-sdk-for-go v68.0.0+incompatible
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.0.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.3.0-beta.2
 	github.com/Azure/go-autorest/autorest v0.11.28
