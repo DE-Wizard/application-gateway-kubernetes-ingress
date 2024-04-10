@@ -1,6 +1,6 @@
 module github.com/Azure/application-gateway-kubernetes-ingress
 
-go 1.19
+go 1.22
 
 require (
 	github.com/Azure/azure-sdk-for-go v66.0.0+incompatible
