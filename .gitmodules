@@ -1,0 +1,6 @@
+[submodule "code-generator"]
+	path = code-generator
+	url = https://github.com/kubernetes/code-generator.git
+[submodule "client-go"]
+	path = client-go
+	url = https://github.com/istio/client-go.git

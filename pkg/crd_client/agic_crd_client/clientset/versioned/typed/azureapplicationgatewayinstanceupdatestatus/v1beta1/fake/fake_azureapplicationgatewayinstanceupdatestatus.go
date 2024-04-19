@@ -24,7 +24,6 @@ import (
 	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayinstanceupdatestatus/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeAzureApplicationGatewayInstanceUpdateStatuses struct {
 	Fake *FakeAzureapplicationgatewayinstanceupdatestatusV1beta1
 }
 
-var azureapplicationgatewayinstanceupdatestatusesResource = schema.GroupVersionResource{Group: "azureapplicationgatewayinstanceupdatestatus.appgw.ingress.azure.io", Version: "v1beta1", Resource: "azureapplicationgatewayinstanceupdatestatuses"}
+var azureapplicationgatewayinstanceupdatestatusesResource = v1beta1.SchemeGroupVersion.WithResource("azureapplicationgatewayinstanceupdatestatuses")
 
-var azureapplicationgatewayinstanceupdatestatusesKind = schema.GroupVersionKind{Group: "azureapplicationgatewayinstanceupdatestatus.appgw.ingress.azure.io", Version: "v1beta1", Kind: "AzureApplicationGatewayInstanceUpdateStatus"}
+var azureapplicationgatewayinstanceupdatestatusesKind = v1beta1.SchemeGroupVersion.WithKind("AzureApplicationGatewayInstanceUpdateStatus")
 
 // Get takes name of the azureApplicationGatewayInstanceUpdateStatus, and returns the corresponding azureApplicationGatewayInstanceUpdateStatus object, and an error if there is any.
 func (c *FakeAzureApplicationGatewayInstanceUpdateStatuses) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.AzureApplicationGatewayInstanceUpdateStatus, err error) {
@@ -99,7 +98,7 @@ func (c *FakeAzureApplicationGatewayInstanceUpdateStatuses) Update(ctx context.C
 // Delete takes name of the azureApplicationGatewayInstanceUpdateStatus and deletes it. Returns an error if one occurs.
 func (c *FakeAzureApplicationGatewayInstanceUpdateStatuses) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteAction(azureapplicationgatewayinstanceupdatestatusesResource, name), &v1beta1.AzureApplicationGatewayInstanceUpdateStatus{})
+		Invokes(testing.NewRootDeleteActionWithOptions(azureapplicationgatewayinstanceupdatestatusesResource, name, opts), &v1beta1.AzureApplicationGatewayInstanceUpdateStatus{})
 	return err
 }
 

@@ -5,14 +5,17 @@
 
 package appgw
 
-import "github.com/knative/pkg/apis/istio/v1alpha3"
+import (
+	networkingv1alpha3 "istio.io/api/networking/v1alpha3"
+	"istio.io/client-go/pkg/apis/networking/v1alpha3"
+)
 
 type istioMatchIdentifier struct {
 	Namespace      string
 	VirtualService *v1alpha3.VirtualService
-	Rule           *v1alpha3.HTTPRoute
-	Match          *v1alpha3.HTTPMatchRequest
-	Destinations   []*v1alpha3.Destination
+	Rule           *networkingv1alpha3.HTTPRoute
+	Match          *networkingv1alpha3.HTTPMatchRequest
+	Destinations   []*networkingv1alpha3.Destination
 	Gateways       []string
 }
 
@@ -29,3 +32,12 @@ type istioDestinationIdentifier struct {
 	DestinationSubset string
 	DestinationPort   uint32
 }
+
+const (
+	ProtocolHTTP  string = "HTTP"
+	ProtocolHTTPS string = "HTTPS"
+	ProtocolGRPC  string = "GRPC"
+	ProtocolHTTP2 string = "HTTP2"
+	ProtocolMongo string = "Mongo"
+	ProtocolTCP   string = "TCP"
+)

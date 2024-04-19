@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/knative/pkg/apis/istio/v1alpha3"
+	"istio.io/client-go/pkg/apis/networking/v1alpha3"
 	networking "k8s.io/api/networking/v1"
 
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/controllererrors"

@@ -24,7 +24,6 @@ import (
 	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusterservice/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -36,9 +35,9 @@ type FakeMultiClusterServices struct {
 	ns   string
 }
 
-var multiclusterservicesResource = schema.GroupVersionResource{Group: "multiclusterservices.networking.aks.io", Version: "v1alpha1", Resource: "multiclusterservices"}
+var multiclusterservicesResource = v1alpha1.SchemeGroupVersion.WithResource("multiclusterservices")
 
-var multiclusterservicesKind = schema.GroupVersionKind{Group: "multiclusterservices.networking.aks.io", Version: "v1alpha1", Kind: "MultiClusterService"}
+var multiclusterservicesKind = v1alpha1.SchemeGroupVersion.WithKind("MultiClusterService")
 
 // Get takes name of the multiClusterService, and returns the corresponding multiClusterService object, and an error if there is any.
 func (c *FakeMultiClusterServices) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MultiClusterService, err error) {
@@ -117,7 +116,7 @@ func (c *FakeMultiClusterServices) UpdateStatus(ctx context.Context, multiCluste
 // Delete takes name of the multiClusterService and deletes it. Returns an error if one occurs.
 func (c *FakeMultiClusterServices) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(multiclusterservicesResource, c.ns, name), &v1alpha1.MultiClusterService{})
+		Invokes(testing.NewDeleteActionWithOptions(multiclusterservicesResource, c.ns, name, opts), &v1alpha1.MultiClusterService{})
 
 	return err
 }

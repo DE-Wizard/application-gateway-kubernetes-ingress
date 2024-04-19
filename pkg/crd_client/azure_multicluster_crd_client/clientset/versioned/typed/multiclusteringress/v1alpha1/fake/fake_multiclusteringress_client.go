@@ -19,7 +19,8 @@ limitations under the License.
 package fake
 
 import (
-	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusteringress/v1alpha1"
+	v1alpha1 "/clientset/versioned/typed/multiclusteringress/v1alpha1"
+
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )

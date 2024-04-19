@@ -38,7 +38,11 @@ func (in *Actions) DeepCopyInto(out *Actions) {
 		*out = make([]HeaderConfiguration, len(*in))
 		copy(*out, *in)
 	}
-	out.UrlConfiguration = in.UrlConfiguration
+	if in.UrlConfiguration != nil {
+		in, out := &in.UrlConfiguration, &out.UrlConfiguration
+		*out = new(UrlConfiguration)
+		**out = **in
+	}
 	return
 }
 

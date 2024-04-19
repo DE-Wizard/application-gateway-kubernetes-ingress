@@ -19,11 +19,12 @@ limitations under the License.
 package fake
 
 import (
-	clientset "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned"
-	multiclusteringressesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusteringress/v1alpha1"
-	fakemulticlusteringressesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusteringress/v1alpha1/fake"
-	multiclusterservicesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusterservice/v1alpha1"
-	fakemulticlusterservicesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusterservice/v1alpha1/fake"
+	clientset "/clientset/versioned"
+	multiclusteringressesv1alpha1 "/clientset/versioned/typed/multiclusteringress/v1alpha1"
+	fakemulticlusteringressesv1alpha1 "/clientset/versioned/typed/multiclusteringress/v1alpha1/fake"
+	multiclusterservicesv1alpha1 "/clientset/versioned/typed/multiclusterservice/v1alpha1"
+	fakemulticlusterservicesv1alpha1 "/clientset/versioned/typed/multiclusterservice/v1alpha1/fake"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
@@ -76,7 +77,10 @@ func (c *Clientset) Tracker() testing.ObjectTracker {
 	return c.tracker
 }
 
-var _ clientset.Interface = &Clientset{}
+var (
+	_ clientset.Interface = &Clientset{}
+	_ testing.FakeClient  = &Clientset{}
+)
 
 // MulticlusteringressesV1alpha1 retrieves the MulticlusteringressesV1alpha1Client
 func (c *Clientset) MulticlusteringressesV1alpha1() multiclusteringressesv1alpha1.MulticlusteringressesV1alpha1Interface {

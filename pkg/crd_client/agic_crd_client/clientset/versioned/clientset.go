@@ -19,13 +19,14 @@ limitations under the License.
 package versioned
 
 import (
+	azureapplicationgatewaybackendpoolsv1beta1 "/clientset/versioned/typed/azureapplicationgatewaybackendpool/v1beta1"
+	azureapplicationgatewayinstanceupdatestatusv1beta1 "/clientset/versioned/typed/azureapplicationgatewayinstanceupdatestatus/v1beta1"
+	azureapplicationgatewayrewritesv1beta1 "/clientset/versioned/typed/azureapplicationgatewayrewrite/v1beta1"
+	azureingressprohibitedtargetsv1 "/clientset/versioned/typed/azureingressprohibitedtarget/v1"
+	loaddistributionpoliciesv1beta1 "/clientset/versioned/typed/loaddistributionpolicy/v1beta1"
 	"fmt"
+	"net/http"
 
-	azureapplicationgatewaybackendpoolsv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewaybackendpool/v1beta1"
-	azureapplicationgatewayinstanceupdatestatusv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewayinstanceupdatestatus/v1beta1"
-	azureapplicationgatewayrewritesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewayrewrite/v1beta1"
-	azureingressprohibitedtargetsv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureingressprohibitedtarget/v1"
-	loaddistributionpoliciesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/loaddistributionpolicy/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
@@ -40,8 +41,7 @@ type Interface interface {
 	LoaddistributionpoliciesV1beta1() loaddistributionpoliciesv1beta1.LoaddistributionpoliciesV1beta1Interface
 }
 
-// Clientset contains the clients for groups. Each group has exactly one
-// version included in a Clientset.
+// Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
 	azureapplicationgatewaybackendpoolsV1beta1         *azureapplicationgatewaybackendpoolsv1beta1.AzureapplicationgatewaybackendpoolsV1beta1Client
@@ -87,7 +87,29 @@ func (c *Clientset) Discovery() discovery.DiscoveryInterface {
 // NewForConfig creates a new Clientset for the given config.
 // If config's RateLimiter is not set and QPS and Burst are acceptable,
 // NewForConfig will generate a rate-limiter in configShallowCopy.
+// NewForConfig is equivalent to NewForConfigAndClient(c, httpClient),
+// where httpClient was generated with rest.HTTPClientFor(c).
 func NewForConfig(c *rest.Config) (*Clientset, error) {
+	configShallowCopy := *c
+
+	if configShallowCopy.UserAgent == "" {
+		configShallowCopy.UserAgent = rest.DefaultKubernetesUserAgent()
+	}
+
+	// share the transport between all clients
+	httpClient, err := rest.HTTPClientFor(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
+
+	return NewForConfigAndClient(&configShallowCopy, httpClient)
+}
+
+// NewForConfigAndClient creates a new Clientset for the given config and http client.
+// Note the http client provided takes precedence over the configured transport values.
+// If config's RateLimiter is not set and QPS and Burst are acceptable,
+// NewForConfigAndClient will generate a rate-limiter in configShallowCopy.
+func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset, error) {
 	configShallowCopy := *c
 	if configShallowCopy.RateLimiter == nil && configShallowCopy.QPS > 0 {
 		if configShallowCopy.Burst <= 0 {
@@ -95,30 +117,31 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 		}
 		configShallowCopy.RateLimiter = flowcontrol.NewTokenBucketRateLimiter(configShallowCopy.QPS, configShallowCopy.Burst)
 	}
+
 	var cs Clientset
 	var err error
-	cs.azureapplicationgatewaybackendpoolsV1beta1, err = azureapplicationgatewaybackendpoolsv1beta1.NewForConfig(&configShallowCopy)
+	cs.azureapplicationgatewaybackendpoolsV1beta1, err = azureapplicationgatewaybackendpoolsv1beta1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
-	cs.azureapplicationgatewayinstanceupdatestatusV1beta1, err = azureapplicationgatewayinstanceupdatestatusv1beta1.NewForConfig(&configShallowCopy)
+	cs.azureapplicationgatewayinstanceupdatestatusV1beta1, err = azureapplicationgatewayinstanceupdatestatusv1beta1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
-	cs.azureapplicationgatewayrewritesV1beta1, err = azureapplicationgatewayrewritesv1beta1.NewForConfig(&configShallowCopy)
+	cs.azureapplicationgatewayrewritesV1beta1, err = azureapplicationgatewayrewritesv1beta1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
-	cs.azureingressprohibitedtargetsV1, err = azureingressprohibitedtargetsv1.NewForConfig(&configShallowCopy)
+	cs.azureingressprohibitedtargetsV1, err = azureingressprohibitedtargetsv1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
-	cs.loaddistributionpoliciesV1beta1, err = loaddistributionpoliciesv1beta1.NewForConfig(&configShallowCopy)
+	cs.loaddistributionpoliciesV1beta1, err = loaddistributionpoliciesv1beta1.NewForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
 
-	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfig(&configShallowCopy)
+	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
 		return nil, err
 	}
@@ -128,15 +151,11 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // NewForConfigOrDie creates a new Clientset for the given config and
 // panics if there is an error in the config.
 func NewForConfigOrDie(c *rest.Config) *Clientset {
-	var cs Clientset
-	cs.azureapplicationgatewaybackendpoolsV1beta1 = azureapplicationgatewaybackendpoolsv1beta1.NewForConfigOrDie(c)
-	cs.azureapplicationgatewayinstanceupdatestatusV1beta1 = azureapplicationgatewayinstanceupdatestatusv1beta1.NewForConfigOrDie(c)
-	cs.azureapplicationgatewayrewritesV1beta1 = azureapplicationgatewayrewritesv1beta1.NewForConfigOrDie(c)
-	cs.azureingressprohibitedtargetsV1 = azureingressprohibitedtargetsv1.NewForConfigOrDie(c)
-	cs.loaddistributionpoliciesV1beta1 = loaddistributionpoliciesv1beta1.NewForConfigOrDie(c)
-
-	cs.DiscoveryClient = discovery.NewDiscoveryClientForConfigOrDie(c)
-	return &cs
+	cs, err := NewForConfig(c)
+	if err != nil {
+		panic(err)
+	}
+	return cs
 }
 
 // New creates a new Clientset for the given RESTClient.

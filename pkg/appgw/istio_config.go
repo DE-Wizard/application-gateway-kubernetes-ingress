@@ -6,7 +6,8 @@
 package appgw
 
 import (
-	"github.com/knative/pkg/apis/istio/v1alpha3"
+	networkingv1alpha3 "istio.io/api/networking/v1alpha3"
+	"istio.io/client-go/pkg/apis/networking/v1alpha3"
 	"k8s.io/klog/v2"
 )
 
@@ -31,7 +32,7 @@ func (c *appGwConfigBuilder) resolveIstioPortName(portName string, destinationID
 	return resolvedPorts
 }
 
-func generateIstioMatchID(virtualService *v1alpha3.VirtualService, rule *v1alpha3.HTTPRoute, match *v1alpha3.HTTPMatchRequest, destinations []*v1alpha3.Destination) istioMatchIdentifier {
+func generateIstioMatchID(virtualService *v1alpha3.VirtualService, rule *networkingv1alpha3.HTTPRoute, match *networkingv1alpha3.HTTPMatchRequest, destinations []*networkingv1alpha3.Destination) istioMatchIdentifier {
 	return istioMatchIdentifier{
 		Namespace:      virtualService.Namespace,
 		VirtualService: virtualService,
@@ -42,7 +43,7 @@ func generateIstioMatchID(virtualService *v1alpha3.VirtualService, rule *v1alpha
 	}
 }
 
-func generateIstioDestinationID(virtualService *v1alpha3.VirtualService, destination *v1alpha3.Destination) istioDestinationIdentifier {
+func generateIstioDestinationID(virtualService *v1alpha3.VirtualService, destination *networkingv1alpha3.Destination) istioDestinationIdentifier {
 	return istioDestinationIdentifier{
 		serviceIdentifier: serviceIdentifier{
 			Namespace: virtualService.Namespace,

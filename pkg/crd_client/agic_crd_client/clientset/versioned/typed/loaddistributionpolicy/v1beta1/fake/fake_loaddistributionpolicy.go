@@ -24,7 +24,6 @@ import (
 	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/loaddistributionpolicy/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -36,9 +35,9 @@ type FakeLoadDistributionPolicies struct {
 	ns   string
 }
 
-var loaddistributionpoliciesResource = schema.GroupVersionResource{Group: "loaddistributionpolicies.appgw.ingress.azure.io", Version: "v1beta1", Resource: "loaddistributionpolicies"}
+var loaddistributionpoliciesResource = v1beta1.SchemeGroupVersion.WithResource("loaddistributionpolicies")
 
-var loaddistributionpoliciesKind = schema.GroupVersionKind{Group: "loaddistributionpolicies.appgw.ingress.azure.io", Version: "v1beta1", Kind: "LoadDistributionPolicy"}
+var loaddistributionpoliciesKind = v1beta1.SchemeGroupVersion.WithKind("LoadDistributionPolicy")
 
 // Get takes name of the loadDistributionPolicy, and returns the corresponding loadDistributionPolicy object, and an error if there is any.
 func (c *FakeLoadDistributionPolicies) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.LoadDistributionPolicy, err error) {
@@ -105,7 +104,7 @@ func (c *FakeLoadDistributionPolicies) Update(ctx context.Context, loadDistribut
 // Delete takes name of the loadDistributionPolicy and deletes it. Returns an error if one occurs.
 func (c *FakeLoadDistributionPolicies) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(loaddistributionpoliciesResource, c.ns, name), &v1beta1.LoadDistributionPolicy{})
+		Invokes(testing.NewDeleteActionWithOptions(loaddistributionpoliciesResource, c.ns, name, opts), &v1beta1.LoadDistributionPolicy{})
 
 	return err
 }

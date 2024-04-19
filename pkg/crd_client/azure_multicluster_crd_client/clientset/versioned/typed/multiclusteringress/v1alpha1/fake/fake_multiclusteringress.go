@@ -24,7 +24,6 @@ import (
 	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusteringress/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -36,9 +35,9 @@ type FakeMultiClusterIngresses struct {
 	ns   string
 }
 
-var multiclusteringressesResource = schema.GroupVersionResource{Group: "multiclusteringresses.networking.aks.io", Version: "v1alpha1", Resource: "multiclusteringresses"}
+var multiclusteringressesResource = v1alpha1.SchemeGroupVersion.WithResource("multiclusteringresses")
 
-var multiclusteringressesKind = schema.GroupVersionKind{Group: "multiclusteringresses.networking.aks.io", Version: "v1alpha1", Kind: "MultiClusterIngress"}
+var multiclusteringressesKind = v1alpha1.SchemeGroupVersion.WithKind("MultiClusterIngress")
 
 // Get takes name of the multiClusterIngress, and returns the corresponding multiClusterIngress object, and an error if there is any.
 func (c *FakeMultiClusterIngresses) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.MultiClusterIngress, err error) {
@@ -117,7 +116,7 @@ func (c *FakeMultiClusterIngresses) UpdateStatus(ctx context.Context, multiClust
 // Delete takes name of the multiClusterIngress and deletes it. Returns an error if one occurs.
 func (c *FakeMultiClusterIngresses) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(multiclusteringressesResource, c.ns, name), &v1alpha1.MultiClusterIngress{})
+		Invokes(testing.NewDeleteActionWithOptions(multiclusteringressesResource, c.ns, name, opts), &v1alpha1.MultiClusterIngress{})
 
 	return err
 }

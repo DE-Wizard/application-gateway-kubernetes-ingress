@@ -10,7 +10,7 @@ import (
 
 	n "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-03-01/network"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/knative/pkg/apis/istio/v1alpha3"
+	networkingv1alpha3 "istio.io/api/networking/v1alpha3"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/klog/v2"
@@ -22,24 +22,24 @@ func istioMatchDestinationIds(cbCtx *ConfigBuilderContext) ([]istioMatchIdentifi
 	matchIDs := make([]istioMatchIdentifier, 0)
 	destinationIDs := make(map[istioDestinationIdentifier]interface{})
 	for _, virtualService := range cbCtx.IstioVirtualServices {
-		for _, rule := range virtualService.Spec.HTTP {
-			destinations := make([]*v1alpha3.Destination, 0)
+		for _, rule := range virtualService.Spec.Http {
+			destinations := make([]*networkingv1alpha3.Destination, 0)
 			for _, routeDestination := range rule.Route {
 				if routeDestination.Weight != 0 {
-					destinations = append(destinations, &routeDestination.Destination)
+					destinations = append(destinations, routeDestination.Destination)
 					/* TODO(rhea): Weights are being ignored for now, since this is not
 					yet supported on App Gateway. Include gates from routeDestination when
 					this is supported */
 				}
-				destinationID := generateIstioDestinationID(virtualService, &routeDestination.Destination)
+				destinationID := generateIstioDestinationID(virtualService, routeDestination.Destination)
 				destinationIDs[destinationID] = nil
 			}
 			for _, match := range rule.Match {
-				if match.URI == nil {
+				if match.Uri == nil {
 					klog.V(5).Infof("Skipped match request, no URI field. Other forms of match requests are not supported.")
 					continue
 				}
-				matchID := generateIstioMatchID(virtualService, &rule, &match, destinations)
+				matchID := generateIstioMatchID(virtualService, rule, match, destinations)
 				matchIDs = append(matchIDs, matchID)
 			}
 		}

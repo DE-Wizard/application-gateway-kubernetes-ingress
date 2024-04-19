@@ -24,7 +24,6 @@ import (
 	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewaybackendpool/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
-	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"
 	testing "k8s.io/client-go/testing"
@@ -35,9 +34,9 @@ type FakeAzureApplicationGatewayBackendPools struct {
 	Fake *FakeAzureapplicationgatewaybackendpoolsV1beta1
 }
 
-var azureapplicationgatewaybackendpoolsResource = schema.GroupVersionResource{Group: "azureapplicationgatewaybackendpools.appgw.ingress.azure.io", Version: "v1beta1", Resource: "azureapplicationgatewaybackendpools"}
+var azureapplicationgatewaybackendpoolsResource = v1beta1.SchemeGroupVersion.WithResource("azureapplicationgatewaybackendpools")
 
-var azureapplicationgatewaybackendpoolsKind = schema.GroupVersionKind{Group: "azureapplicationgatewaybackendpools.appgw.ingress.azure.io", Version: "v1beta1", Kind: "AzureApplicationGatewayBackendPool"}
+var azureapplicationgatewaybackendpoolsKind = v1beta1.SchemeGroupVersion.WithKind("AzureApplicationGatewayBackendPool")
 
 // Get takes name of the azureApplicationGatewayBackendPool, and returns the corresponding azureApplicationGatewayBackendPool object, and an error if there is any.
 func (c *FakeAzureApplicationGatewayBackendPools) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1beta1.AzureApplicationGatewayBackendPool, err error) {
@@ -99,7 +98,7 @@ func (c *FakeAzureApplicationGatewayBackendPools) Update(ctx context.Context, az
 // Delete takes name of the azureApplicationGatewayBackendPool and deletes it. Returns an error if one occurs.
 func (c *FakeAzureApplicationGatewayBackendPools) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteAction(azureapplicationgatewaybackendpoolsResource, name), &v1beta1.AzureApplicationGatewayBackendPool{})
+		Invokes(testing.NewRootDeleteActionWithOptions(azureapplicationgatewaybackendpoolsResource, name, opts), &v1beta1.AzureApplicationGatewayBackendPool{})
 	return err
 }
 
