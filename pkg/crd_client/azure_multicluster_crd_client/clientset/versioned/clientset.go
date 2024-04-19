@@ -19,11 +19,11 @@ limitations under the License.
 package versioned
 
 import (
-	multiclusteringressesv1alpha1 "/clientset/versioned/typed/multiclusteringress/v1alpha1"
-	multiclusterservicesv1alpha1 "/clientset/versioned/typed/multiclusterservice/v1alpha1"
 	"fmt"
 	"net/http"
 
+	multiclusteringressesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusteringress/v1alpha1"
+	multiclusterservicesv1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/typed/multiclusterservice/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

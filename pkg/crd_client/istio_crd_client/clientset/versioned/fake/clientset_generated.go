@@ -19,10 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "/clientset/versioned"
-	networkingv1alpha3 "/clientset/versioned/typed/networking/v1alpha3"
-	fakenetworkingv1alpha3 "/clientset/versioned/typed/networking/v1alpha3/fake"
-
+	clientset "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned"
+	networkingv1alpha3 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned/typed/networking/v1alpha3"
+	fakenetworkingv1alpha3 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned/typed/networking/v1alpha3/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

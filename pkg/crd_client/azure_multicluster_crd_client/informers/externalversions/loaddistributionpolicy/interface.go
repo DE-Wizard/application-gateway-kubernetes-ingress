@@ -19,8 +19,8 @@ limitations under the License.
 package loaddistributionpolicy
 
 import (
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1beta1 "/informers/externalversions/loaddistributionpolicy/v1beta1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/loaddistributionpolicy/v1beta1"
 )
 
 // Interface provides access to each of this group's versions.

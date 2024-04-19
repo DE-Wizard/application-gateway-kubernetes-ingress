@@ -19,14 +19,14 @@ limitations under the License.
 package versioned
 
 import (
-	azureapplicationgatewaybackendpoolsv1beta1 "/clientset/versioned/typed/azureapplicationgatewaybackendpool/v1beta1"
-	azureapplicationgatewayinstanceupdatestatusv1beta1 "/clientset/versioned/typed/azureapplicationgatewayinstanceupdatestatus/v1beta1"
-	azureapplicationgatewayrewritesv1beta1 "/clientset/versioned/typed/azureapplicationgatewayrewrite/v1beta1"
-	azureingressprohibitedtargetsv1 "/clientset/versioned/typed/azureingressprohibitedtarget/v1"
-	loaddistributionpoliciesv1beta1 "/clientset/versioned/typed/loaddistributionpolicy/v1beta1"
 	"fmt"
 	"net/http"
 
+	azureapplicationgatewaybackendpoolsv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewaybackendpool/v1beta1"
+	azureapplicationgatewayinstanceupdatestatusv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewayinstanceupdatestatus/v1beta1"
+	azureapplicationgatewayrewritesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureapplicationgatewayrewrite/v1beta1"
+	azureingressprohibitedtargetsv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/azureingressprohibitedtarget/v1"
+	loaddistributionpoliciesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned/typed/loaddistributionpolicy/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

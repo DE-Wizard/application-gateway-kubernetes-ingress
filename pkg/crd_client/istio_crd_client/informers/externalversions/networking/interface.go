@@ -19,9 +19,9 @@ limitations under the License.
 package networking
 
 import (
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1alpha3 "/informers/externalversions/networking/v1alpha3"
-	v1beta1 "/informers/externalversions/networking/v1beta1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
+	v1alpha3 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/networking/v1alpha3"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/networking/v1beta1"
 )
 
 // Interface provides access to each of this group's versions.

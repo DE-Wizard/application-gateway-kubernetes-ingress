@@ -19,8 +19,8 @@ limitations under the License.
 package extensions
 
 import (
-	v1alpha1 "/informers/externalversions/extensions/v1alpha1"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
+	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/extensions/v1alpha1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

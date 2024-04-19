@@ -19,9 +19,9 @@ limitations under the License.
 package security
 
 import (
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1 "/informers/externalversions/security/v1"
-	v1beta1 "/informers/externalversions/security/v1beta1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
+	v1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/security/v1"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/security/v1beta1"
 )
 
 // Interface provides access to each of this group's versions.

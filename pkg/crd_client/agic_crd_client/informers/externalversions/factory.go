@@ -19,19 +19,19 @@ limitations under the License.
 package externalversions
 
 import (
-	versioned "/clientset/versioned"
-	azureapplicationgatewaybackendpool "/informers/externalversions/azureapplicationgatewaybackendpool"
-	azureapplicationgatewayinstanceupdatestatus "/informers/externalversions/azureapplicationgatewayinstanceupdatestatus"
-	azureapplicationgatewayrewrite "/informers/externalversions/azureapplicationgatewayrewrite"
-	azureingressprohibitedtarget "/informers/externalversions/azureingressprohibitedtarget"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	loaddistributionpolicy "/informers/externalversions/loaddistributionpolicy"
-	multiclusteringress "/informers/externalversions/multiclusteringress"
-	multiclusterservice "/informers/externalversions/multiclusterservice"
 	reflect "reflect"
 	sync "sync"
 	time "time"
 
+	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned"
+	azureapplicationgatewaybackendpool "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/azureapplicationgatewaybackendpool"
+	azureapplicationgatewayinstanceupdatestatus "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/azureapplicationgatewayinstanceupdatestatus"
+	azureapplicationgatewayrewrite "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/azureapplicationgatewayrewrite"
+	azureingressprohibitedtarget "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/azureingressprohibitedtarget"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
+	loaddistributionpolicy "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/loaddistributionpolicy"
+	multiclusteringress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/multiclusteringress"
+	multiclusterservice "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/multiclusterservice"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

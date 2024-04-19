@@ -5,7 +5,7 @@
 
 package k8scontext
 
-import "github.com/knative/pkg/apis/istio/v1alpha3"
+import "istio.io/client-go/pkg/apis/networking/v1alpha3"
 
 // ListIstioGateways returns a list of discovered Istio Gateways
 func (c *Context) ListIstioGateways() []*v1alpha3.Gateway {

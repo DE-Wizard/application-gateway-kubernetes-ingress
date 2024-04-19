@@ -19,8 +19,8 @@ limitations under the License.
 package azureapplicationgatewaybackendpool
 
 import (
-	v1beta1 "/informers/externalversions/azureapplicationgatewaybackendpool/v1beta1"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/azureapplicationgatewaybackendpool/v1beta1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

@@ -19,12 +19,12 @@ limitations under the License.
 package v1beta1
 
 import (
-	versioned "/clientset/versioned"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1beta1 "/listers/security/v1beta1"
 	"context"
 	time "time"
 
+	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/listers/security/v1beta1"
 	securityv1beta1 "istio.io/client-go/pkg/apis/security/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

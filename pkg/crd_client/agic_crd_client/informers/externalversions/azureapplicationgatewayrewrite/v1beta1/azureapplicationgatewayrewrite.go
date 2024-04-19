@@ -19,13 +19,13 @@ limitations under the License.
 package v1beta1
 
 import (
-	versioned "/clientset/versioned"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1beta1 "/listers/azureapplicationgatewayrewrite/v1beta1"
 	"context"
 	time "time"
 
 	azureapplicationgatewayrewritev1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayrewrite/v1beta1"
+	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
+	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/listers/azureapplicationgatewayrewrite/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"

@@ -19,12 +19,12 @@ limitations under the License.
 package v1alpha3
 
 import (
-	versioned "/clientset/versioned"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1alpha3 "/listers/networking/v1alpha3"
 	"context"
 	time "time"
 
+	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
+	v1alpha3 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/listers/networking/v1alpha3"
 	networkingv1alpha3 "istio.io/client-go/pkg/apis/networking/v1alpha3"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"

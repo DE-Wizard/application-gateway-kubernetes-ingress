@@ -19,8 +19,8 @@ limitations under the License.
 package multiclusteringress
 
 import (
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	v1alpha1 "/informers/externalversions/multiclusteringress/v1alpha1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
+	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/multiclusteringress/v1alpha1"
 )
 
 // Interface provides access to each of this group's versions.

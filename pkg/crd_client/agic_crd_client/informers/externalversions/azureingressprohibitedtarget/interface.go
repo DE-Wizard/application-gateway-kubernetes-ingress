@@ -19,8 +19,8 @@ limitations under the License.
 package azureingressprohibitedtarget
 
 import (
-	v1 "/informers/externalversions/azureingressprohibitedtarget/v1"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
+	v1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/azureingressprohibitedtarget/v1"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.

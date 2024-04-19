@@ -19,10 +19,10 @@ limitations under the License.
 package v1alpha3
 
 import (
-	scheme "/clientset/versioned/scheme"
 	"context"
 	"time"
 
+	scheme "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned/scheme"
 	v1alpha3 "istio.io/client-go/pkg/apis/networking/v1alpha3"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"

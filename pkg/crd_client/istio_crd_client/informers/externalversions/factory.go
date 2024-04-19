@@ -19,16 +19,16 @@ limitations under the License.
 package externalversions
 
 import (
-	versioned "/clientset/versioned"
-	extensions "/informers/externalversions/extensions"
-	internalinterfaces "/informers/externalversions/internalinterfaces"
-	networking "/informers/externalversions/networking"
-	security "/informers/externalversions/security"
-	telemetry "/informers/externalversions/telemetry"
 	reflect "reflect"
 	sync "sync"
 	time "time"
 
+	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned"
+	extensions "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/extensions"
+	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
+	networking "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/networking"
+	security "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/security"
+	telemetry "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/telemetry"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
