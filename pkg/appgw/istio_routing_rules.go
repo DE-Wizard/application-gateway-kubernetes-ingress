@@ -6,8 +6,6 @@
 package appgw
 
 import (
-	"strconv"
-
 	n "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-03-01/network"
 	"github.com/Azure/go-autorest/autorest/to"
 )
@@ -23,16 +21,11 @@ func (c *appGwConfigBuilder) getIstioPathMaps(cbCtx *ConfigBuilderContext) map[l
 
 	urlPathMaps := make(map[listenerIdentifier]*n.ApplicationGatewayURLPathMap)
 	for virtSvcIdx, virtSvc := range cbCtx.IstioVirtualServices {
-		for _, http := range virtSvc.Spec.HTTP {
+		for _, http := range virtSvc.Spec.Http {
 			// TODO(delqn): consider weights
 			host := http.Route[0].Destination.Host
 			var port uint32
-			if http.Route[0].Destination.Port.Number != 0 {
-				port = http.Route[0].Destination.Port.Number
-			} else {
-				port64, _ := strconv.ParseUint(http.Route[0].Destination.Port.Name, 10, 32)
-				port = uint32(port64)
-			}
+			port = http.Route[0].Destination.Port.Number
 			for matchIdx, match := range http.Match {
 				dst := istioDestinationIdentifier{
 					serviceIdentifier: serviceIdentifier{
@@ -77,7 +70,7 @@ func (c *appGwConfigBuilder) getIstioPathMaps(cbCtx *ConfigBuilderContext) map[l
 					ID:   to.StringPtr(c.appGwIdentifier.pathRuleID(pathMapName, pathRuleName)),
 					ApplicationGatewayPathRulePropertiesFormat: &n.ApplicationGatewayPathRulePropertiesFormat{
 						Paths: &[]string{
-							match.URI.Prefix,
+							match.Uri.GetPrefix(),
 						},
 						BackendAddressPool: &n.SubResource{ID: pool.ID},
 						// TODO(delqn)
