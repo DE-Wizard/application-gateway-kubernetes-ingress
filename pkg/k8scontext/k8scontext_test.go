@@ -10,10 +10,11 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/getlantern/deepcopy"
-	"github.com/knative/pkg/apis/istio/v1alpha3"
 	"github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	"istio.io/client-go/pkg/apis/networking/v1alpha3"
 	v1 "k8s.io/api/core/v1"
 	networking "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -30,7 +31,6 @@ import (
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/environment"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/metricstore"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/tests"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 var _ = ginkgo.Describe("K8scontext", func() {
