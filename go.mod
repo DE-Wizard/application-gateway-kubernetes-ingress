@@ -13,7 +13,6 @@ require (
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/deckarep/golang-set v1.8.0
 	github.com/getlantern/deepcopy v0.0.0-20160317154340-7f45deb8130a
-	github.com/knative/pkg v0.0.0-20190619032946-d90a9bc97dde
 	github.com/kylelemons/godebug v1.1.0
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/ginkgo/v2 v2.17.1
