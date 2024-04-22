@@ -13,8 +13,9 @@ import (
 	"time"
 
 	mapset "github.com/deckarep/golang-set"
-	"github.com/knative/pkg/apis/istio/v1alpha3"
+	"istio.io/client-go/pkg/apis/networking/v1alpha3"
 	v1 "k8s.io/api/core/v1"
+	extensions "k8s.io/api/extensions/v1beta1"
 	networking "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/informers"
@@ -632,7 +633,7 @@ func (c *Context) GetSecret(secretKey string) *v1.Secret {
 }
 
 // GetVirtualServicesForGateway returns the VirtualServices for the provided gateway
-func (c *Context) GetVirtualServicesForGateway(gateway v1alpha3.Gateway) []*v1alpha3.VirtualService {
+func (c *Context) GetVirtualServicesForGateway(gateway *v1alpha3.Gateway) []*v1alpha3.VirtualService {
 	virtualServices := make([]*v1alpha3.VirtualService, 0)
 	allVirtualServices := c.ListIstioVirtualServices()
 	gatewayName := gateway.Name
@@ -656,10 +657,10 @@ func (c *Context) GetVirtualServicesForGateway(gateway v1alpha3.Gateway) []*v1al
 }
 
 // GetEndpointsForVirtualService returns a list of Endpoints associated with a Virtual Service
-func (c *Context) GetEndpointsForVirtualService(virtualService v1alpha3.VirtualService) v1.EndpointsList {
+func (c *Context) GetEndpointsForVirtualService(virtualService *v1alpha3.VirtualService) v1.EndpointsList {
 	endpointList := make([]v1.Endpoints, 0)
 	namespace := virtualService.Namespace
-	for _, httpRouteRule := range virtualService.Spec.HTTP {
+	for _, httpRouteRule := range virtualService.Spec.Http {
 		for _, route := range httpRouteRule.Route {
 			serviceKey := fmt.Sprintf("%v/%v", namespace, route.Destination.Host)
 			endpoint, err := c.GetEndpointsByService(serviceKey)
@@ -750,9 +751,9 @@ func (c *Context) updateV1IngressStatus(ingressToUpdate networking.Ingress, newI
 		}
 	}
 
-	loadBalancerIngresses := []v1.LoadBalancerIngress{}
+	loadBalancerIngresses := []networking.IngressLoadBalancerIngress{}
 	if newIP != "" {
-		loadBalancerIngresses = append(loadBalancerIngresses, v1.LoadBalancerIngress{
+		loadBalancerIngresses = append(loadBalancerIngresses, networking.IngressLoadBalancerIngress{
 			IP: string(newIP),
 		})
 	}
@@ -792,9 +793,9 @@ func (c *Context) updateV1beta1IngressStatus(ingressToUpdate networking.Ingress,
 		}
 	}
 
-	loadBalancerIngresses := []v1.LoadBalancerIngress{}
+	loadBalancerIngresses := []extensions.IngressLoadBalancerIngress{}
 	if newIP != "" {
-		loadBalancerIngresses = append(loadBalancerIngresses, v1.LoadBalancerIngress{
+		loadBalancerIngresses = append(loadBalancerIngresses, extensions.IngressLoadBalancerIngress{
 			IP: string(newIP),
 		})
 	}
@@ -833,9 +834,9 @@ func (c *Context) updateMultiClusterIngressStatus(ingressToUpdate networking.Ing
 		}
 	}
 
-	loadBalancerIngresses := []v1.LoadBalancerIngress{}
+	loadBalancerIngresses := []networking.IngressLoadBalancerIngress{}
 	if newIP != "" {
-		loadBalancerIngresses = append(loadBalancerIngresses, v1.LoadBalancerIngress{
+		loadBalancerIngresses = append(loadBalancerIngresses, networking.IngressLoadBalancerIngress{
 			IP: string(newIP),
 		})
 	}
