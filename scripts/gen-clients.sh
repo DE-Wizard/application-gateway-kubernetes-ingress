@@ -16,32 +16,33 @@ source ../code-generator/kube_codegen.sh
 echo -e "Generate Application Gateway CRDs..."
 kube::codegen::gen_helpers \
     --boilerplate ../code-generator/examples/hack/boilerplate.go.txt \
-    ../pkg/apis
+    --extra-peer-dir "../pkg/apis/agic" \
+    --extra-peer-dir "../pkg/apis/multicluster" \
+    ../pkg
 
 kube::codegen::gen_client \
     --with-watch \
     --output-dir ../pkg/crd_client/agic_crd_client \
     --output-pkg github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client \
-    --group-versions "azureapplicationgatewayinstanceupdatestatus:v1beta1 azureapplicationgatewaybackendpool:v1beta1 azureingressprohibitedtarget:v1 loaddistributionpolicy:v1beta1 azureapplicationgatewayrewrite:v1beta1" \
     --boilerplate ../code-generator/examples/hack/boilerplate.go.txt \
-    ../pkg/apis
+    ../pkg/apis/agic
 
 echo -e "Generate Azure Multi-Cluster CRDs..."
 kube::codegen::gen_client \
     --with-watch \
     --output-dir ../pkg/crd_client/azure_multicluster_crd_client \
     --output-pkg github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client \
-    --group-versions "multiclusterservice:v1alpha1 multiclusteringress:v1alpha1" \
     --boilerplate ../code-generator/examples/hack/boilerplate.go.txt \
-    ../pkg/apis
+    ../pkg/apis/multicluster
 
-go get istio.io/client-go
+istio_version=$(grep 'istio.io/client-go' ../go.mod | cut -d' ' -f2)
+go get istio.io/client-go@$istio_version
 
 echo -e "Generate Istio CRDs..."
 kube::codegen::gen_client \
     --with-watch \
+    --one-input-api networking \
     --output-dir ../pkg/crd_client/istio_crd_client \
     --output-pkg github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client \
-    --group-versions "networking:v1alpha3" \
     --boilerplate ../code-generator/examples/hack/boilerplate.go.txt \
-    /home/wsl/go/pkg/mod/istio.io/client-go*/pkg/apis
+    /home/wsl/go/pkg/mod/istio.io/client-go@$istio_version/pkg/apis

@@ -229,7 +229,8 @@ var _ = Describe("Public and Private IP tests", func() {
 	crdClient := fake.NewSimpleClientset()
 	istioCrdClient := istio_fake.NewSimpleClientset()
 	multiClusterCrdClient := multiCluster_fake.NewSimpleClientset()
-	k8scontext.IsNetworkingV1PackageSupported = true
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 	ctxt := k8scontext.NewContext(k8sClient, crdClient, multiClusterCrdClient, istioCrdClient, []string{ingressNS}, 1000*time.Second, metricstore.NewFakeMetricStore(), environment.GetFakeEnv())
 
 	secret := tests.NewSecretTestFixture()

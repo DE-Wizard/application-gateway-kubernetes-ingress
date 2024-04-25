@@ -20,7 +20,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/annotations"
-	agrewrite "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayrewrite/v1beta1"
+	agrewrite "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayrewrite/v1beta1"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/environment"
 )
 

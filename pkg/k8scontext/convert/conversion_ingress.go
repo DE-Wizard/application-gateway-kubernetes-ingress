@@ -1,10 +1,11 @@
 package convert
 
 import (
-	multiClusterIngress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusteringress/v1alpha1"
 	extensionsv1beta1 "k8s.io/api/extensions/v1beta1"
 	networkingv1 "k8s.io/api/networking/v1"
 	"k8s.io/klog/v2"
+
+	multiClusterIngress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multicluster/multiclusteringress/v1alpha1"
 )
 
 func fromExtensions(old *extensionsv1beta1.Ingress) (*networkingv1.Ingress, error) {

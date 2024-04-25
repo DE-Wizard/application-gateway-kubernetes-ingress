@@ -21,7 +21,7 @@ package v1alpha1
 import (
 	"net/http"
 
-	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusterservice/v1alpha1"
+	v1alpha1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multicluster/multiclusterservice/v1alpha1"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )

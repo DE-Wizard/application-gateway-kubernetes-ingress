@@ -11,7 +11,7 @@ import (
 
 	"k8s.io/klog/v2"
 
-	ptv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureingressprohibitedtarget/v1"
+	ptv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureingressprohibitedtarget/v1"
 )
 
 // TargetBlacklist is a list of Targets, which AGIC is not allowed to apply configuration for.

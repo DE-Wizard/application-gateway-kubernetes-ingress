@@ -23,6 +23,7 @@ import (
 	"net/http"
 
 	networkingv1alpha3 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned/typed/networking/v1alpha3"
+	networkingv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned/typed/networking/v1beta1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
@@ -31,17 +32,24 @@ import (
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	NetworkingV1alpha3() networkingv1alpha3.NetworkingV1alpha3Interface
+	NetworkingV1beta1() networkingv1beta1.NetworkingV1beta1Interface
 }
 
 // Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
 	networkingV1alpha3 *networkingv1alpha3.NetworkingV1alpha3Client
+	networkingV1beta1  *networkingv1beta1.NetworkingV1beta1Client
 }
 
 // NetworkingV1alpha3 retrieves the NetworkingV1alpha3Client
 func (c *Clientset) NetworkingV1alpha3() networkingv1alpha3.NetworkingV1alpha3Interface {
 	return c.networkingV1alpha3
+}
+
+// NetworkingV1beta1 retrieves the NetworkingV1beta1Client
+func (c *Clientset) NetworkingV1beta1() networkingv1beta1.NetworkingV1beta1Interface {
+	return c.networkingV1beta1
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -92,6 +100,10 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
+	cs.networkingV1beta1, err = networkingv1beta1.NewForConfigAndClient(&configShallowCopy, httpClient)
+	if err != nil {
+		return nil, err
+	}
 
 	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
@@ -114,6 +126,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
 	cs.networkingV1alpha3 = networkingv1alpha3.New(c)
+	cs.networkingV1beta1 = networkingv1beta1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs

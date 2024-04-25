@@ -91,7 +91,8 @@ func main() {
 
 	apiConfig := getKubeClientConfig()
 	kubeClient := kubernetes.NewForConfigOrDie(apiConfig)
-	k8scontext.IsNetworkingV1PackageSupported = k8scontext.SupportsNetworkingPackage(kubeClient)
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 	k8scontext.IsInMultiClusterMode = env.MultiClusterMode
 	crdClient := versioned.NewForConfigOrDie(apiConfig)
 	istioCrdClient := istio.NewForConfigOrDie(apiConfig)

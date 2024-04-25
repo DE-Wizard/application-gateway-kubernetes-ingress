@@ -11,9 +11,8 @@ import (
 	v1 "k8s.io/api/core/v1"
 	networking "k8s.io/api/networking/v1"
 
+	ptv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureingressprohibitedtarget/v1"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/environment"
-
-	ptv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureingressprohibitedtarget/v1"
 )
 
 // ConfigBuilderContext holds the structs we have fetches from Kubernetes + environment, based on which

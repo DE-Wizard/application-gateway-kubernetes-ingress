@@ -98,7 +98,8 @@ var _ = ginkgo.Describe("K8scontext", func() {
 		Expect(err).ToNot(HaveOccurred(), "Unabled to create ingress resource due to: %v", err)
 
 		// Create a `k8scontext` to start listening to ingress resources.
-		IsNetworkingV1PackageSupported = true
+		// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+		// since around August 2021 we should not be supporting overley deprecated version that are out of support
 		ctxt = NewContext(k8sClient, crdClient, multiClusterCrdClient, istioCrdClient, []string{ingressNS}, 1000*time.Second, metricstore.NewFakeMetricStore(), environment.GetFakeEnv())
 
 		Expect(ctxt).ShouldNot(BeNil(), "Unable to create `k8scontext`")
@@ -644,7 +645,8 @@ var _ = ginkgo.Describe("K8scontext", func() {
 
 		ginkgo.BeforeEach(func() {
 			// Create a `k8scontext` to start listening to ingress resources.
-			IsNetworkingV1PackageSupported = false
+			// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+			// since around August 2021 we should not be supporting overley deprecated version that are out of support
 			ctxt = NewContext(k8sClient, crdClient, multiClusterCrdClient, istioCrdClient, []string{ingressNS}, 1000*time.Second, metricstore.NewFakeMetricStore(), environment.GetFakeEnv())
 
 			Expect(ctxt).ShouldNot(BeNil(), "Unable to create `k8scontext`")

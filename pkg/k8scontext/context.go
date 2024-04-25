@@ -15,7 +15,6 @@ import (
 	mapset "github.com/deckarep/golang-set"
 	"istio.io/client-go/pkg/apis/networking/v1alpha3"
 	v1 "k8s.io/api/core/v1"
-	extensions "k8s.io/api/extensions/v1beta1"
 	networking "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/informers"
@@ -24,12 +23,12 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/annotations"
-	agpoolv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewaybackendpool/v1beta1"
-	aginstv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayinstanceupdatestatus/v1beta1"
-	agrewritev1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayrewrite/v1beta1"
-	prohibitedv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureingressprohibitedtarget/v1"
-	multiClusterIngress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusteringress/v1alpha1"
-	multiClusterService "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusterservice/v1alpha1"
+	agpoolv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewaybackendpool/v1beta1"
+	aginstv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayinstanceupdatestatus/v1beta1"
+	agrewritev1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayrewrite/v1beta1"
+	prohibitedv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureingressprohibitedtarget/v1"
+	multiClusterIngress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multicluster/multiclusteringress/v1alpha1"
+	multiClusterService "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multicluster/multiclusterservice/v1alpha1"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/azure"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/controllererrors"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned"
@@ -62,10 +61,12 @@ func NewContext(kubeClient kubernetes.Interface, crdClient versioned.Interface, 
 	istioCrdInformerFactory := istio_externalversions.NewSharedInformerFactoryWithOptions(istioCrdClient, resyncPeriod)
 
 	informerCollection := InformerCollection{
-		Endpoints: informerFactory.Core().V1().Endpoints().Informer(),
-		Pods:      informerFactory.Core().V1().Pods().Informer(),
-		Secret:    informerFactory.Core().V1().Secrets().Informer(),
-		Service:   informerFactory.Core().V1().Services().Informer(),
+		Endpoints:    informerFactory.Core().V1().Endpoints().Informer(),
+		Ingress:      informerFactory.Networking().V1().Ingresses().Informer(),
+		IngressClass: informerFactory.Networking().V1().IngressClasses().Informer(),
+		Pods:         informerFactory.Core().V1().Pods().Informer(),
+		Secret:       informerFactory.Core().V1().Secrets().Informer(),
+		Service:      informerFactory.Core().V1().Services().Informer(),
 
 		AzureIngressProhibitedTarget:                crdInformerFactory.Azureingressprohibitedtargets().V1().AzureIngressProhibitedTargets().Informer(),
 		AzureApplicationGatewayBackendPool:          crdInformerFactory.Azureapplicationgatewaybackendpools().V1beta1().AzureApplicationGatewayBackendPools().Informer(),
@@ -76,15 +77,11 @@ func NewContext(kubeClient kubernetes.Interface, crdClient versioned.Interface, 
 		IstioGateway:                                istioCrdInformerFactory.Networking().V1alpha3().Gateways().Informer(),
 		IstioVirtualService:                         istioCrdInformerFactory.Networking().V1alpha3().VirtualServices().Informer(),
 	}
-
-	if IsNetworkingV1PackageSupported {
-		informerCollection.Ingress = informerFactory.Networking().V1().Ingresses().Informer()
-	} else {
-		informerCollection.Ingress = informerFactory.Extensions().V1beta1().Ingresses().Informer()
-	}
-
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 	cacheCollection := CacheCollection{
 		Endpoints:                          informerCollection.Endpoints.GetStore(),
+		IngressClass:                       informerCollection.IngressClass.GetStore(),
 		Ingress:                            informerCollection.Ingress.GetStore(),
 		Pods:                               informerCollection.Pods.GetStore(),
 		Secret:                             informerCollection.Secret.GetStore(),
@@ -148,6 +145,7 @@ func NewContext(kubeClient kubernetes.Interface, crdClient versioned.Interface, 
 	// Register event handlers.
 	informerCollection.Endpoints.AddEventHandler(resourceHandler)
 	informerCollection.Ingress.AddEventHandler(ingressResourceHandler)
+	informerCollection.IngressClass.AddEventHandler(resourceHandler)
 	informerCollection.Pods.AddEventHandler(resourceHandler)
 	informerCollection.Secret.AddEventHandler(secretResourceHandler)
 	informerCollection.Service.AddEventHandler(resourceHandler)
@@ -158,11 +156,8 @@ func NewContext(kubeClient kubernetes.Interface, crdClient versioned.Interface, 
 	informerCollection.MultiClusterService.AddEventHandler(resourceHandler)
 	informerCollection.MultiClusterIngress.AddEventHandler(resourceHandler)
 
-	if IsNetworkingV1PackageSupported {
-		informerCollection.IngressClass = informerFactory.Networking().V1().IngressClasses().Informer()
-		informerCollection.IngressClass.AddEventHandler(resourceHandler)
-		cacheCollection.IngressClass = informerCollection.IngressClass.GetStore()
-	}
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 
 	return context
 }
@@ -198,6 +193,7 @@ func (c *Context) Run(stopChannel chan struct{}, omitCRDs bool, envVariables env
 		c.informers.Service,
 		c.informers.Secret,
 		c.informers.Ingress,
+		c.informers.IngressClass,
 
 		c.informers.AzureApplicationGatewayRewrite,
 
@@ -205,10 +201,8 @@ func (c *Context) Run(stopChannel chan struct{}, omitCRDs bool, envVariables env
 		// c.informers.AzureApplicationGatewayBackendPool,
 		// c.informers.AzureApplicationGatewayInstanceUpdateStatus,
 	}
-
-	if IsNetworkingV1PackageSupported {
-		sharedInformers = append(sharedInformers, c.informers.IngressClass)
-	}
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 
 	// For AGIC to watch for these CRDs the EnableBrownfieldDeploymentVarName env variable must be set to true
 	if envVariables.EnableBrownfieldDeployment {
@@ -719,13 +713,13 @@ func (c *Context) GetInfrastructureResourceGroupID() (azure.SubscriptionID, azur
 }
 
 // UpdateIngressStatus adds IP address in Ingress Status
+// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+// since around August 2021 we should not be supporting overley deprecated version that are out of support
 func (c *Context) UpdateIngressStatus(ingressToUpdate networking.Ingress, newIP IPAddress) error {
-	if IsNetworkingV1PackageSupported && !IsInMultiClusterMode {
+	if !IsInMultiClusterMode {
 		return c.updateV1IngressStatus(ingressToUpdate, newIP)
-	} else if IsInMultiClusterMode {
-		return c.updateMultiClusterIngressStatus(ingressToUpdate, newIP)
 	} else {
-		return c.updateV1beta1IngressStatus(ingressToUpdate, newIP)
+		return c.updateMultiClusterIngressStatus(ingressToUpdate, newIP)
 	}
 
 }
@@ -772,46 +766,8 @@ func (c *Context) updateV1IngressStatus(ingressToUpdate networking.Ingress, newI
 	return nil
 }
 
-func (c *Context) updateV1beta1IngressStatus(ingressToUpdate networking.Ingress, newIP IPAddress) error {
-	ingressClient := c.kubeClient.ExtensionsV1beta1().Ingresses(ingressToUpdate.Namespace)
-	ingress, err := ingressClient.Get(context.TODO(), ingressToUpdate.Name, metav1.GetOptions{})
-	if err != nil {
-		e := controllererrors.NewErrorWithInnerErrorf(
-			controllererrors.ErrorUpdatingIngressStatus,
-			err,
-			"Unable to get ingress %s/%s", ingressToUpdate.Namespace, ingressToUpdate.Name,
-		)
-		c.MetricStore.IncErrorCount(e.Code)
-		return e
-	}
-
-	for _, lbi := range ingress.Status.LoadBalancer.Ingress {
-		existingIP := lbi.IP
-		if existingIP == string(newIP) {
-			klog.Infof("IP %s already set on Ingress %s/%s", lbi.IP, ingress.Namespace, ingress.Name)
-			return nil
-		}
-	}
-
-	loadBalancerIngresses := []extensions.IngressLoadBalancerIngress{}
-	if newIP != "" {
-		loadBalancerIngresses = append(loadBalancerIngresses, extensions.IngressLoadBalancerIngress{
-			IP: string(newIP),
-		})
-	}
-	ingress.Status.LoadBalancer.Ingress = loadBalancerIngresses
-
-	if _, err := ingressClient.UpdateStatus(context.TODO(), ingress, metav1.UpdateOptions{}); err != nil {
-		e := controllererrors.NewErrorWithInnerErrorf(
-			controllererrors.ErrorUpdatingIngressStatus,
-			err,
-			"Unable to update ingress %s/%s status", ingress.Namespace, ingress.Name,
-		)
-		c.MetricStore.IncErrorCount(e.Code)
-		return e
-	}
-	return nil
-}
+// Removed the function updateV1beta1IngressStatus as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+// since around August 2021 we should not be supporting overley deprecated version that are out of support
 
 func (c *Context) updateMultiClusterIngressStatus(ingressToUpdate networking.Ingress, newIP IPAddress) error {
 	ingressClient := c.multiClusterCrdClient.MulticlusteringressesV1alpha1().MultiClusterIngresses(ingressToUpdate.Namespace)

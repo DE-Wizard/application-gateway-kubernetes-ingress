@@ -22,7 +22,7 @@ import (
 	"context"
 	time "time"
 
-	azureapplicationgatewayrewritev1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayrewrite/v1beta1"
+	azureapplicationgatewayrewritev1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayrewrite/v1beta1"
 	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned"
 	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
 	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/listers/azureapplicationgatewayrewrite/v1beta1"

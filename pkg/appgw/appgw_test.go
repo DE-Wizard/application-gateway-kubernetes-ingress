@@ -444,7 +444,8 @@ var _ = Describe("Tests `appgw.ConfigBuilder`", func() {
 		multiClusterCrdClient := multiCluster_fake.NewSimpleClientset()
 
 		// Create a `k8scontext` to start listiening to ingress resources.
-		k8scontext.IsNetworkingV1PackageSupported = true
+		// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+		// since around August 2021 we should not be supporting overley deprecated version that are out of support
 		ctxt = k8scontext.NewContext(k8sClient, crdClient, multiClusterCrdClient, istioCrdClient, []string{ingressNS}, 1000*time.Second, metricstore.NewFakeMetricStore(), environment.GetFakeEnv())
 		Expect(ctxt).ShouldNot(BeNil(), "Unable to create `k8scontext`")
 

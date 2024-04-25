@@ -22,7 +22,7 @@ import (
 	"context"
 	time "time"
 
-	loaddistributionpolicyv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/loaddistributionpolicy/v1beta1"
+	loaddistributionpolicyv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/loaddistributionpolicy/v1beta1"
 	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/clientset/versioned"
 	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/informers/externalversions/internalinterfaces"
 	v1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/agic_crd_client/listers/loaddistributionpolicy/v1beta1"

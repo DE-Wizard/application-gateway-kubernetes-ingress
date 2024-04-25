@@ -1,9 +1,10 @@
 package convert
 
 import (
-	multiclusterservice "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multiclusterservice/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
+
+	multiclusterservice "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/multicluster/multiclusterservice/v1alpha1"
 )
 
 // FromMultiClusterService converts MutliClusterService CRD into k8s.io/api/core/v1/Service
@@ -14,7 +15,6 @@ func FromMultiClusterService(gs *multiclusterservice.MultiClusterService) (*v1.S
 	v1Serv := &v1.Service{}
 	//copy over metadata
 	v1Serv.ObjectMeta = gs.ObjectMeta
-	v1Serv.ClusterName = gs.ClusterName
 	v1Serv.Labels = gs.Labels
 	v1Serv.Annotations = gs.Annotations
 

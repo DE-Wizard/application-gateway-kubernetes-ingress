@@ -24,12 +24,7 @@ import (
 	time "time"
 
 	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/clientset/versioned"
-	azureapplicationgatewaybackendpool "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/azureapplicationgatewaybackendpool"
-	azureapplicationgatewayinstanceupdatestatus "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/azureapplicationgatewayinstanceupdatestatus"
-	azureapplicationgatewayrewrite "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/azureapplicationgatewayrewrite"
-	azureingressprohibitedtarget "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/azureingressprohibitedtarget"
 	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/internalinterfaces"
-	loaddistributionpolicy "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/loaddistributionpolicy"
 	multiclusteringress "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/multiclusteringress"
 	multiclusterservice "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/azure_multicluster_crd_client/informers/externalversions/multiclusterservice"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -259,33 +254,8 @@ type SharedInformerFactory interface {
 	// client.
 	InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer
 
-	Azureapplicationgatewaybackendpools() azureapplicationgatewaybackendpool.Interface
-	Azureapplicationgatewayinstanceupdatestatus() azureapplicationgatewayinstanceupdatestatus.Interface
-	Azureapplicationgatewayrewrites() azureapplicationgatewayrewrite.Interface
-	Azureingressprohibitedtargets() azureingressprohibitedtarget.Interface
-	Loaddistributionpolicies() loaddistributionpolicy.Interface
 	Multiclusteringresses() multiclusteringress.Interface
 	Multiclusterservices() multiclusterservice.Interface
-}
-
-func (f *sharedInformerFactory) Azureapplicationgatewaybackendpools() azureapplicationgatewaybackendpool.Interface {
-	return azureapplicationgatewaybackendpool.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Azureapplicationgatewayinstanceupdatestatus() azureapplicationgatewayinstanceupdatestatus.Interface {
-	return azureapplicationgatewayinstanceupdatestatus.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Azureapplicationgatewayrewrites() azureapplicationgatewayrewrite.Interface {
-	return azureapplicationgatewayrewrite.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Azureingressprohibitedtargets() azureingressprohibitedtarget.Interface {
-	return azureingressprohibitedtarget.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Loaddistributionpolicies() loaddistributionpolicy.Interface {
-	return loaddistributionpolicy.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Multiclusteringresses() multiclusteringress.Interface {

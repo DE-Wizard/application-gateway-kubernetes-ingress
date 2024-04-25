@@ -19,11 +19,11 @@ limitations under the License.
 package scheme
 
 import (
-	azureapplicationgatewaybackendpoolsv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewaybackendpool/v1beta1"
-	azureapplicationgatewayinstanceupdatestatusv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayinstanceupdatestatus/v1beta1"
-	azureapplicationgatewayrewritesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureapplicationgatewayrewrite/v1beta1"
-	azureingressprohibitedtargetsv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/azureingressprohibitedtarget/v1"
-	loaddistributionpoliciesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/loaddistributionpolicy/v1beta1"
+	azureapplicationgatewaybackendpoolsv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewaybackendpool/v1beta1"
+	azureapplicationgatewayinstanceupdatestatusv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayinstanceupdatestatus/v1beta1"
+	azureapplicationgatewayrewritesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureapplicationgatewayrewrite/v1beta1"
+	azureingressprohibitedtargetsv1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/azureingressprohibitedtarget/v1"
+	loaddistributionpoliciesv1beta1 "github.com/Azure/application-gateway-kubernetes-ingress/pkg/apis/agic/loaddistributionpolicy/v1beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

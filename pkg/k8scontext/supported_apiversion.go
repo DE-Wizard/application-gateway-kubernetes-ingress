@@ -8,16 +8,15 @@ package k8scontext
 import (
 	"time"
 
-	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/utils"
-
 	extensionsv1beta1 "k8s.io/api/extensions/v1beta1"
 	networkingv1 "k8s.io/api/networking/v1"
 	k8sruntime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/version"
+	serverversion "k8s.io/apimachinery/pkg/version"
 	clientset "k8s.io/client-go/kubernetes"
 	"k8s.io/klog/v2"
 
-	serverversion "k8s.io/apimachinery/pkg/version"
+	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/utils"
 )
 
 const (
@@ -29,7 +28,8 @@ var (
 	runtimeScheme = k8sruntime.NewScheme()
 
 	// IsNetworkingV1PackageSupported is flag that indicates whether networking/v1beta ingress should be used instead.
-	IsNetworkingV1PackageSupported bool
+	// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+	// since around August 2021 we should not be supporting overley deprecated version that are out of support
 
 	// IsInMultiClusterMode is a flag to indicate that AGIC should monitor MutliCluster CRDs
 	IsInMultiClusterMode bool

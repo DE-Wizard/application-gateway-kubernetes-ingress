@@ -24,11 +24,8 @@ import (
 	time "time"
 
 	versioned "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/clientset/versioned"
-	extensions "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/extensions"
 	internalinterfaces "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/internalinterfaces"
 	networking "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/networking"
-	security "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/security"
-	telemetry "github.com/Azure/application-gateway-kubernetes-ingress/pkg/crd_client/istio_crd_client/informers/externalversions/telemetry"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -256,24 +253,9 @@ type SharedInformerFactory interface {
 	// client.
 	InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer
 
-	Extensions() extensions.Interface
 	Networking() networking.Interface
-	Security() security.Interface
-	Telemetry() telemetry.Interface
-}
-
-func (f *sharedInformerFactory) Extensions() extensions.Interface {
-	return extensions.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Networking() networking.Interface {
 	return networking.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Security() security.Interface {
-	return security.New(f, f.namespace, f.tweakListOptions)
-}
-
-func (f *sharedInformerFactory) Telemetry() telemetry.Interface {
-	return telemetry.New(f, f.namespace, f.tweakListOptions)
 }

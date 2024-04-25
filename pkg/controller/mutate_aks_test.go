@@ -9,8 +9,6 @@ import (
 	"context"
 	"time"
 
-	"k8s.io/client-go/tools/record"
-
 	n "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-03-01/network"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/ginkgo"
@@ -20,6 +18,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	testclient "k8s.io/client-go/kubernetes/fake"
+	"k8s.io/client-go/tools/record"
 
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/annotations"
 	"github.com/Azure/application-gateway-kubernetes-ingress/pkg/appgw"
@@ -61,7 +60,8 @@ var _ = Describe("process function tests", func() {
 		ingress = tests.NewIngressFixture()
 
 		// Create a `k8scontext` to start listening to ingress resources.
-		k8scontext.IsNetworkingV1PackageSupported = true
+		// Removed the reference to IsNetworkingV1PackageSupported as K8 versions prior to V1.19 are no longer supported V1.19 has not been supported itself
+		// since around August 2021 we should not be supporting overley deprecated version that are out of support
 		ctxt = k8scontext.NewContext(k8sClient, crdClient, multiClusterCrdClient, istioCrdClient, []string{tests.Namespace}, 1000*time.Second, metricstore.NewFakeMetricStore(), environment.GetFakeEnv())
 
 		_, err := k8sClient.CoreV1().Namespaces().Create(context.TODO(), ns, metav1.CreateOptions{})
